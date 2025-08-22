@@ -1,1 +1,144 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NOSTR Address Landing Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: #181a20;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #23262f;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px #0008;
+            padding: 32px 24px;
+        }
+
+        h1, h2 {
+            color: #f7c873;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            background: #181a20;
+            color: #e0e0e0;
+            border: 1px solid #333;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        button {
+            background: #f7c873;
+            color: #181a20;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 18px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+            button:hover {
+                background: #ffd98a;
+            }
+
+        .footer {
+            text-align: center;
+            margin: 32px 0 0 0;
+            color: #888;
+            font-size: 0.95em;
+        }
+
+            .footer a {
+                color: #f7c873;
+                text-decoration: none;
+                margin: 0 8px;
+            }
+
+                .footer a:hover {
+                    text-decoration: underline;
+                }
+
+        .npub-nsec {
+            word-break: break-all;
+            background: #181a20;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+    </style>
+    <!-- nostr-tools CDN (für Demo-Zwecke, ggf. lokal einbinden) -->
+    <script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>NOSTR Address</h1>
+        <div class="section">
+            <h2>What is NOSTR?</h2>
+            <p>
+                NOSTR is an open protocol that enables censorship-resistant and decentralized social networking. It allows anyone to publish and interact without relying on a central authority.
+            </p>
+        </div>
+        <div class="section">
+            <h2>What is a NOSTR address?</h2>
+            <p>
+                A NOSTR address is a unique identifier (npub) that represents your public profile on the NOSTR network. It is derived from a cryptographic key pair, ensuring privacy and security.
+            </p>
+        </div>
+        <div class="section">
+            <h2>Create your npub & nsec</h2>
+            <button onclick="generateKeys()">Generate</button>
+            <div id="keys" style="display:none;">
+                <label>npub (public key):</label>
+                <div class="npub-nsec" id="npub"></div>
+                <label>nsec (private key):</label>
+                <div class="npub-nsec" id="nsec"></div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Get your @npuppy.me NOSTR address</h2>
+            <p>
+                Want a personalized NOSTR address like <b>@yourname@npuppy.me</b>? Click below to create one at npuppy.me!
+            </p>
+            <a href="https://npuppy.me" target="_blank">
+                <button>Go to npuppy.me</button>
+            </a>
+        </div>
+    </div>
+    <div class="footer">
+        <a href="/impressum.html" target="_blank">Impressum</a> |
+    </div>
+    <script>
+        function generateKeys() {
+            const sk = window.NostrTools.generatePrivateKey();
+            const pk = window.NostrTools.getPublicKey(sk);
+            const npub = window.NostrTools.nip19.npubEncode(pk);
+            const nsec = window.NostrTools.nip19.nsecEncode(sk);
+            document.getElementById('npub').textContent = npub;
+            document.getElementById('nsec').textContent = nsec;
+            document.getElementById('keys').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
